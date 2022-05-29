@@ -2,31 +2,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: dreamkast
   labels:
-    app: nginx
+    app: dreamkast
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nginx
+      app: dreamkast
   template:
     metadata:
       labels:
-        app: nginx
+        app: dreamkast
     spec:
       containers:
-        - name: nginx
-          image: nginx:1.14.2
+        - name: dreamkast
+          image: kanatakita/appset-demo-app
           ports:
             - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: dreamkast
   labels:
-    app: nginx
+    app: dreamkast
 spec:
   ports:
   - name: http
@@ -34,15 +34,15 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: nginx
+    app: dreamkast
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nginx
+  name: dreamkast
 spec:
   rules:
-    - host: HOSTNAME.cloudnativedays.jp
+    - host: IS_REPLACED
       http:
         paths:
           - pathType: ImplementationSpecific

@@ -9,6 +9,13 @@ metadata:
 data:
   configManagementPlugins: |
     - name: kustomize-with-replacements
+      init:
+        command: ["bash", "-euxc"]
+        args:
+        - export IFS=",";
+          for image in ${IMAGES}; do
+            kustomize edit set image $image;
+          done;
       generate:
         command: ["kustomize", "build"]
       lockRepo: true

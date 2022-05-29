@@ -6,6 +6,6 @@ source:
 targets:
 - select:
     kind: Ingress
-    name: nginx
+    name: dreamkast
   fieldPaths:
     - spec.rules.0.host

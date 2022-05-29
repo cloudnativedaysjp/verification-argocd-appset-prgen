@@ -7,13 +7,15 @@ spec:
   generators:
   - pullRequest:
       github:
-        owner: cloudnativedaysjp
-        repo: dreamkast
+        #owner: cloudnativedaysjp
+        owner: ShotaKitazawa
+        #repo: dreamkast
+        repo: appset-demo-app
         tokenRef:
           secretName: github-token
           key: token
         labels:
-        - reviewapps/ignore
+        - reviewapps
       requeueAfterSeconds: 1800
   template:
     metadata:
@@ -29,6 +31,9 @@ spec:
           env:
             - name: FQDN
               value: 'dreamkast-dk-{{number}}.cloudnativedays.jp'
+            - name: IMAGES
+              value: >-
+                kanatakita/appset-demo-app=kanatakita/appset-demo-app:{{head_sha}}
       destination:
         server: https://kubernetes.default.svc
         namespace: 'dreamkast-dk-{{number}}'
