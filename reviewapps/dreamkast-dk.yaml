@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: dreamkast-dk
+  namespace: argocd
+spec:
+  generators:
+  - pullRequest:
+      github:
+        owner: cloudnativedaysjp
+        repo: dreamkast
+        tokenRef:
+          secretName: github-token
+          key: token
+        labels:
+        - reviewapps/ignore
+      requeueAfterSeconds: 1800
+  template:
+    metadata:
+      name: 'dreamkast-dk-{{number}}'
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/cloudnativedaysjp/verification-argocd-appset-prgen'
+        targetRevision: 'main'
+        path: apps/dreamkast/overlays/development/template-dk
+        plugin:
+          name: kustomize-with-replacements
+          env:
+            - name: FQDN
+              value: 'dreamkast-dk-{{number}}.cloudnativedays.jp'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'dreamkast-dk-{{number}}'
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+        - CreateNamespace=true

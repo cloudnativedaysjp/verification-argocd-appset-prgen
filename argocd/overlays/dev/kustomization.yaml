@@ -1,0 +1,6 @@
+bases:
+- ../../base
+patches:
+- ./argocd-cm.yaml
+- ./delete-secret.yaml
+- ./pods.yaml

@@ -1,0 +1,11 @@
+source:
+  version: v1
+  kind: ConfigMap
+  name: replacement-rules
+  fieldPath: data.FQDN
+targets:
+- select:
+    kind: Ingress
+    name: nginx
+  fieldPaths:
+    - spec.rules.0.host
